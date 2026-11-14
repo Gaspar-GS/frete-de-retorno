@@ -1197,7 +1197,25 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+/* BOTÃO SOLICITAR SERVIÇO — DESTAQUE EXTRA */
 
+.nav-content > .btn,
+.hero-actions .btn-primary,
+.hero-actions .btn {
+    min-height: 68px;
+    padding: 0 42px;
+    font-size: 18px;
+    font-weight: 900;
+    border-radius: 12px;
+    letter-spacing: .2px;
+}
+
+.form-card .btn,
+#whatsappForm .btn {
+    min-height: 70px;
+    font-size: 18px;
+    font-weight: 900;
+}
 /* =====================================================
    ACESSIBILIDADE
 ===================================================== */
