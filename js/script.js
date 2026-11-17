@@ -12,7 +12,7 @@
 // 1. CONFIGURAÇÃO
 // =========================================================
 
-const WHATSAPP = "244953715148";
+const WHATSAPP = "244935109387";
 
 const MAPA_ESTILO = "https://tiles.openfreemap.org/styles/liberty";
 
