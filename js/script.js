@@ -1,25 +1,23 @@
-
 "use strict";
 
 // ======================================================
 // FRETE DE RETORNO — SCRIPT PRINCIPAL
-// Pesquisa dinâmica + mapa + formulário em duas etapas
+// Pesquisa automática + mapa + formulário em duas etapas
 // ======================================================
 
 // 1. CONFIGURAÇÕES
-const WHATSAPP = "244953715148";
+
+const WHATSAPP = "244935109387";
 const MAPA_ESTILO = "https://tiles.openfreemap.org/styles/liberty";
 const NOMINATIM = "https://nominatim.openstreetmap.org";
 
 const CENTRO_ANGOLA = [-11.2027, 17.8739];
 const ZOOM_INICIAL = 5.2;
 
-const TEMPO_PESQUISA = 700;
+const TEMPO_PESQUISA = 600;
 const MINIMO_CARACTERES = 3;
 
-// ======================================================
-// 2. ELEMENTOS DO HTML
-// ======================================================
+// 2. ELEMENTOS HTML
 
 const formulario = document.getElementById("whatsappForm");
 
@@ -45,67 +43,35 @@ const destinoInfo = document.getElementById("destinoInfo");
 const mapaElemento = document.getElementById("map");
 const mapStatus = document.getElementById("mapStatus");
 
-const mapSearch = document.getElementById("mapSearch");
-const mapSearchBtn = document.getElementById("mapSearchBtn");
-const mapSearchResults = document.getElementById("mapSearchResults");
-
 const usarGPS = document.getElementById("usarGPS");
 const anoAtual = document.getElementById("anoAtual");
 
-// ======================================================
-// 3. MUNICÍPIOS DE ANGOLA
-// ======================================================
-
-const municipiosAngola = {
-    "Bengo": ["Ambriz", "Bula Atumba", "Dande", "Dembos", "Nambuangongo", "Pango Aluquém"],
-    "Benguela": ["Baía Farta", "Balombo", "Benguela", "Bocoio", "Caimbambo", "Catumbela", "Chongorói", "Cubal", "Ganda", "Lobito"],
-    "Bié": ["Andulo", "Camacupa", "Catabola", "Chinguar", "Chitembo", "Cuemba", "Cunhinga", "Cuíto", "Nharea"],
-    "Cabinda": ["Belize", "Buco-Zau", "Cabinda", "Cacongo"],
-    "Cuando": ["Cuito Cuanavale", "Dirico", "Mavinga", "Rivungo"],
-    "Cubango": ["Calai", "Cuangar", "Cuchi", "Cutato", "Menongue", "Nancova"],
-    "Cuanza Norte": ["Ambaca", "Banga", "Bolongongo", "Cambambe", "Cazengo", "Golungo Alto", "Gonguembo", "Lucala", "Quiculungo", "Samba Caju"],
-    "Cuanza Sul": ["Amboim", "Cassongue", "Cela", "Conda", "Ebo", "Libolo", "Mussende", "Porto Amboim", "Quibala", "Quilenda", "Seles", "Sumbe"],
-    "Cunene": ["Cahama", "Cuanhama", "Curoca", "Cuvelai", "Namacunde", "Ombadja"],
-    "Huambo": ["Bailundo", "Caála", "Catchiungo", "Ecunha", "Huambo", "Londuimbali", "Longonjo", "Mungo", "Tchicala-Tcholoanga", "Tchindjenje", "Ucuma"],
-    "Huíla": ["Caconda", "Cacula", "Caluquembe", "Chibia", "Chicomba", "Chipindo", "Cuvango", "Gambos", "Humpata", "Jamba", "Lubango", "Matala", "Quilengues", "Quipungo"],
-    "Icolo e Bengo": ["Catete", "Bom Jesus", "Cabiri", "Caculo Cahango", "Cassoneca", "Sequele"],
-    "Luanda": ["Belas", "Cacuaco", "Cazenga", "Ingombota", "Kilamba Kiaxi", "Maianga", "Mulenvos", "Mussulo", "Rangel", "Sambizanga", "Talatona", "Viana"],
-    "Lunda Norte": ["Cambulo", "Capenda Camulemba", "Caungula", "Chitato", "Cuango", "Cuilo", "Lóvua", "Lubalo", "Lucapa", "Xá-Muteba"],
-    "Lunda Sul": ["Cacolo", "Dala", "Muconda", "Saurimo"],
-    "Malanje": ["Cacuso", "Calandula", "Cambundi-Catembo", "Cangandala", "Caombo", "Cuaba Nzogo", "Cunda-Dia-Baze", "Luquembo", "Malanje", "Marimba", "Massango", "Mucari", "Quela", "Quirima"],
-    "Moxico": ["Camanongue", "Léua", "Luau", "Luena", "Luchazes", "Cameia"],
-    "Moxico Leste": ["Cazombo", "Lóvua do Zambeze", "Luacano", "Nana Candundo"],
-    "Namibe": ["Bibala", "Camucuio", "Moçâmedes", "Tômbwa", "Virei"],
-    "Uíge": ["Alto Cauale", "Ambuila", "Bembe", "Buengas", "Bungo", "Damba", "Milunga", "Mucaba", "Negage", "Puri", "Quimbele", "Quitexe", "Sanza Pombo", "Songo", "Uíge", "Zombo"],
-    "Zaire": ["Cuimba", "M'banza Kongo", "Noqui", "N'zeto", "Soyo", "Tomboco"]
-};
-
-// ======================================================
-// 4. LOCALIZAÇÕES
-// ======================================================
+// 3. CAMPOS DE LOCALIZAÇÃO
 
 const localizacoes = {
     partida: {
+        campo: document.getElementById("partidaLocal"),
+        resultados: document.getElementById("partidaResultados"),
         provincia: document.getElementById("partidaProvincia"),
         municipio: document.getElementById("partidaMunicipio"),
-        local: document.getElementById("partidaLocal"),
         latitude: document.getElementById("partidaLat"),
         longitude: document.getElementById("partidaLng"),
         coordenadas: document.getElementById("partidaCoordenadas")
     },
 
     destino: {
+        campo: document.getElementById("destinoLocal"),
+        resultados: document.getElementById("destinoResultados"),
         provincia: document.getElementById("destinoProvincia"),
         municipio: document.getElementById("destinoMunicipio"),
-        local: document.getElementById("destinoLocal"),
         latitude: document.getElementById("destinoLat"),
         longitude: document.getElementById("destinoLng"),
         coordenadas: document.getElementById("destinoCoordenadas")
     }
 };
 
-let alvoMapa = "partida";
 let mapa = null;
+let alvoMapa = "partida";
 
 const marcadores = {
     partida: null,
@@ -117,15 +83,24 @@ const coordenadas = {
     destino: null
 };
 
+const temporizadoresPesquisa = {
+    partida: null,
+    destino: null
+};
+
+const controladoresPesquisa = {
+    partida: null,
+    destino: null
+};
+
+const numerosPesquisa = {
+    partida: 0,
+    destino: 0
+};
+
 let linhaRotaCriada = false;
 
-let temporizadorPesquisa = null;
-let controladorPesquisa = null;
-let numeroPesquisa = 0;
-
-// ======================================================
-// 5. FUNÇÕES AUXILIARES
-// ======================================================
+// 4. FUNÇÕES AUXILIARES
 
 function obterValor(id) {
     const elemento = document.getElementById(id);
@@ -213,35 +188,7 @@ function obterNomeLocal(resultado) {
     );
 }
 
-// ======================================================
-// 6. MUNICÍPIOS
-// ======================================================
-
-function carregarMunicipios(tipo) {
-    const dados = localizacoes[tipo];
-
-    if (!dados || !dados.provincia || !dados.municipio) return;
-
-    const provincia = dados.provincia.value;
-    const municipio = dados.municipio;
-
-    municipio.innerHTML = "";
-
-    const lista = municipiosAngola[provincia] || [];
-
-    lista.forEach(nome => {
-        const option = document.createElement("option");
-
-        option.value = nome;
-        option.textContent = nome;
-
-        municipio.appendChild(option);
-    });
-}
-
-// ======================================================
-// 7. TIPO DE PEDIDO
-// ======================================================
+// 5. TIPO DE PEDIDO
 
 function atualizarFormulario(tipo) {
     document.querySelectorAll('input[name="tipo"]').forEach(radio => {
@@ -256,13 +203,6 @@ function atualizarFormulario(tipo) {
         camposCamiao.hidden = tipo !== "truck";
     }
 
-    document.querySelectorAll("[data-set]").forEach(botao => {
-        botao.classList.toggle(
-            "active",
-            botao.dataset.set === tipo
-        );
-    });
-
     limparErro();
     limparErro(formErrorDetalhes);
 }
@@ -273,44 +213,14 @@ document.querySelectorAll('input[name="tipo"]').forEach(radio => {
     });
 });
 
-document.querySelectorAll("[data-set]").forEach(botao => {
-    botao.addEventListener("click", () => {
-        atualizarFormulario(botao.dataset.set);
-    });
-});
-
-// ======================================================
-// 8. ETAPAS DO FORMULÁRIO
-// ======================================================
-
-function mostrarEtapa(numero) {
-    const mostrarPercurso = numero === 1;
-
-    if (etapaPercurso) {
-        etapaPercurso.hidden = !mostrarPercurso;
-    }
-
-    if (etapaDetalhes) {
-        etapaDetalhes.hidden = mostrarPercurso;
-    }
-
-    limparErro();
-    limparErro(formErrorDetalhes);
-
-    if (formulario) {
-        formulario.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-    }
-}
+// 6. DESCRIÇÃO DAS LOCALIZAÇÕES
 
 function obterDescricaoLocal(tipo) {
     const dados = localizacoes[tipo];
 
     if (!dados) return "";
 
-    const local = dados.local?.value.trim() || "";
+    const local = dados.campo?.value.trim() || "";
     const municipio = dados.municipio?.value.trim() || "";
     const provincia = dados.provincia?.value.trim() || "";
 
@@ -343,11 +253,37 @@ function atualizarResumoPercurso() {
     }
 
     if (partidaInfo) {
-        partidaInfo.textContent = origem || "Localização não indicada";
+        partidaInfo.textContent = origem || "Indique o local de origem.";
     }
 
     if (destinoInfo) {
-        destinoInfo.textContent = destino || "Localização não indicada";
+        destinoInfo.textContent = destino || "Indique o local de destino.";
+    }
+}
+
+// 7. ETAPAS DO FORMULÁRIO
+
+function mostrarEtapa(numero) {
+    const mostrarPercurso = numero === 1;
+
+    if (etapaPercurso) {
+        etapaPercurso.hidden = !mostrarPercurso;
+    }
+
+    if (etapaDetalhes) {
+        etapaDetalhes.hidden = mostrarPercurso;
+    }
+
+    fecharTodasSugestoes();
+
+    limparErro();
+    limparErro(formErrorDetalhes);
+
+    if (formulario) {
+        formulario.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     }
 }
 
@@ -355,16 +291,14 @@ function continuarParaDetalhes() {
     limparErro();
 
     if (!validarLocalizacao("partida")) {
-        mostrarErro("Indique o local de origem.");
-        definirAlvoMapa("partida");
-        localizacoes.partida.local?.focus();
+        mostrarErro("Seleccione uma localização válida para a origem.");
+        localizacoes.partida.campo?.focus();
         return;
     }
 
     if (!validarLocalizacao("destino")) {
-        mostrarErro("Indique o local de destino.");
-        definirAlvoMapa("destino");
-        localizacoes.destino.local?.focus();
+        mostrarErro("Seleccione uma localização válida para o destino.");
+        localizacoes.destino.campo?.focus();
         return;
     }
 
@@ -389,9 +323,27 @@ if (voltarPercursoSecundario) {
     voltarPercursoSecundario.addEventListener("click", () => mostrarEtapa(1));
 }
 
-// ======================================================
+// 8. FECHAR SUGESTÕES
+
+function fecharSugestoes(tipo) {
+    const resultados = localizacoes[tipo]?.resultados;
+    const campo = localizacoes[tipo]?.campo;
+
+    if (resultados) {
+        resultados.hidden = true;
+    }
+
+    if (campo) {
+        campo.setAttribute("aria-expanded", "false");
+    }
+}
+
+function fecharTodasSugestoes() {
+    fecharSugestoes("partida");
+    fecharSugestoes("destino");
+}
+
 // 9. INICIALIZAÇÃO DO MAPA
-// ======================================================
 
 function inicializarMapa() {
     if (!mapaElemento) {
@@ -430,17 +382,7 @@ function inicializarMapa() {
         criarLinhaRota();
 
         atualizarEstadoMapa(
-            "Pesquise um local ou escolha a origem e o destino."
-        );
-    });
-
-    mapa.on("click", evento => {
-        if (!alvoMapa) return;
-
-        selecionarPonto(
-            alvoMapa,
-            evento.lngLat.lat,
-            evento.lngLat.lng
+            "Pesquise a origem e o destino para visualizar o percurso."
         );
     });
 
@@ -449,42 +391,45 @@ function inicializarMapa() {
     });
 
     window.addEventListener("resize", () => {
-        if (mapa) mapa.resize();
+        if (mapa) {
+            mapa.resize();
+        }
     });
 }
 
-// ======================================================
-// 10. DEFINIR ORIGEM OU DESTINO
-// ======================================================
+// 10. DEFINIR LOCAL ACTIVO
 
 function definirAlvoMapa(tipo) {
     if (!localizacoes[tipo]) return;
 
     alvoMapa = tipo;
-
-    document.querySelectorAll("[data-map-target]").forEach(botao => {
-        const ativo = botao.dataset.mapTarget === tipo;
-
-        botao.classList.toggle("active", ativo);
-        botao.setAttribute("aria-pressed", String(ativo));
-    });
-
-    const nome = tipo === "partida" ? "origem" : "destino";
-
-    atualizarEstadoMapa(
-        `A pesquisar ou seleccionar o local de ${nome}.`
-    );
 }
 
-document.querySelectorAll("[data-map-target]").forEach(botao => {
-    botao.addEventListener("click", () => {
-        definirAlvoMapa(botao.dataset.mapTarget);
-    });
-});
+// 11. LIMPAR LOCALIZAÇÃO ANTIGA
 
-// ======================================================
-// 11. SELECCIONAR UM PONTO NO MAPA
-// ======================================================
+function limparLocalizacao(tipo) {
+    const dados = localizacoes[tipo];
+
+    if (!dados) return;
+
+    coordenadas[tipo] = null;
+
+    if (marcadores[tipo]) {
+        marcadores[tipo].remove();
+        marcadores[tipo] = null;
+    }
+
+    definirValor(dados.provincia, "");
+    definirValor(dados.municipio, "");
+    definirValor(dados.latitude, "");
+    definirValor(dados.longitude, "");
+    definirValor(dados.coordenadas, "");
+
+    atualizarLinhaRota();
+    atualizarResumoPercurso();
+}
+
+// 12. SELECCIONAR LOCALIZAÇÃO
 
 async function selecionarPonto(tipo, lat, lng, resultado = null) {
     if (!localizacoes[tipo]) return;
@@ -497,9 +442,9 @@ async function selecionarPonto(tipo, lat, lng, resultado = null) {
     lat = Number(lat);
     lng = Number(lng);
 
-    coordenadas[tipo] = { lat, lng };
-
     const dados = localizacoes[tipo];
+
+    coordenadas[tipo] = { lat, lng };
 
     definirValor(dados.latitude, lat);
     definirValor(dados.longitude, lng);
@@ -507,6 +452,7 @@ async function selecionarPonto(tipo, lat, lng, resultado = null) {
 
     if (marcadores[tipo]) {
         marcadores[tipo].remove();
+        marcadores[tipo] = null;
     }
 
     const cor = tipo === "partida" ? "#16A36A" : "#DC5555";
@@ -521,30 +467,18 @@ async function selecionarPonto(tipo, lat, lng, resultado = null) {
         borderRadius: "50%",
         background: cor,
         border: "3px solid #ffffff",
-        boxShadow: "0 2px 12px rgba(0,0,0,.35)",
-        cursor: "grab"
+        boxShadow: "0 2px 12px rgba(0,0,0,.35)"
     });
 
-    const marcador = new maplibregl.Marker({
-        element: elementoMarcador,
-        draggable: true
-    })
-        .setLngLat([lng, lat])
-        .addTo(mapa);
+    if (mapa && typeof maplibregl !== "undefined") {
+        const marcador = new maplibregl.Marker({
+            element: elementoMarcador
+        })
+            .setLngLat([lng, lat])
+            .addTo(mapa);
 
-    marcadores[tipo] = marcador;
-
-    marcador.on("dragend", async () => {
-        const posicao = marcador.getLngLat();
-
-        await selecionarPonto(
-            tipo,
-            posicao.lat,
-            posicao.lng
-        );
-    });
-
-    atualizarLinhaRota();
+        marcadores[tipo] = marcador;
+    }
 
     if (resultado) {
         preencherLocalizacao(tipo, resultado);
@@ -552,18 +486,18 @@ async function selecionarPonto(tipo, lat, lng, resultado = null) {
         await obterEndereco(tipo, lat, lng);
     }
 
+    atualizarLinhaRota();
     atualizarResumoPercurso();
+    ajustarVisualizacaoRota();
 
-    const nome = tipo === "partida" ? "Origem" : "Destino";
+    fecharSugestoes(tipo);
 
     atualizarEstadoMapa(
-        `${nome} seleccionada: ${obterDescricaoLocal(tipo)}`
+        `${tipo === "partida" ? "Origem" : "Destino"} seleccionado: ${obterDescricaoLocal(tipo)}`
     );
 }
 
-// ======================================================
-// 12. PREENCHER DADOS DA LOCALIZAÇÃO
-// ======================================================
+// 13. PREENCHER DADOS DA LOCALIZAÇÃO
 
 function preencherLocalizacao(tipo, resultado) {
     const campos = localizacoes[tipo];
@@ -572,16 +506,14 @@ function preencherLocalizacao(tipo, resultado) {
 
     const endereco = resultado.address || {};
 
-    definirValor(campos.local, obterNomeLocal(resultado));
+    definirValor(campos.campo, obterNomeLocal(resultado));
     definirValor(campos.provincia, obterNomeProvincia(endereco));
     definirValor(campos.municipio, obterNomeMunicipio(endereco));
 
     atualizarResumoPercurso();
 }
 
-// ======================================================
-// 13. IDENTIFICAR ENDEREÇO PELO MAPA
-// ======================================================
+// 14. IDENTIFICAR ENDEREÇO POR COORDENADAS
 
 async function obterEndereco(tipo, lat, lng) {
     try {
@@ -610,9 +542,9 @@ async function obterEndereco(tipo, lat, lng) {
 
         const campos = localizacoes[tipo];
 
-        if (!campos.local.value.trim()) {
+        if (!campos.campo.value.trim()) {
             definirValor(
-                campos.local,
+                campos.campo,
                 `Localização GPS (${lat.toFixed(5)}, ${lng.toFixed(5)})`
             );
         }
@@ -627,51 +559,51 @@ async function obterEndereco(tipo, lat, lng) {
     }
 }
 
-// ======================================================
-// 14. PESQUISA AUTOMÁTICA DE LOCALIZAÇÕES
-// ======================================================
+// 15. PESQUISA AUTOMÁTICA
 
 function agendarPesquisa(consulta, tipo) {
-    clearTimeout(temporizadorPesquisa);
+    clearTimeout(temporizadoresPesquisa[tipo]);
 
-    if (controladorPesquisa) {
-        controladorPesquisa.abort();
+    if (controladoresPesquisa[tipo]) {
+        controladoresPesquisa[tipo].abort();
+        controladoresPesquisa[tipo] = null;
     }
 
     const texto = consulta.trim();
 
     if (texto.length < MINIMO_CARACTERES) {
-        if (mapSearchResults) {
-            mapSearchResults.innerHTML = "";
-            mapSearchResults.hidden = true;
-        }
-
+        fecharSugestoes(tipo);
         return;
     }
 
-    alvoMapa = tipo;
-
     definirAlvoMapa(tipo);
 
-    temporizadorPesquisa = setTimeout(() => {
+    temporizadoresPesquisa[tipo] = setTimeout(() => {
         pesquisarLocalizacao(texto, tipo);
     }, TEMPO_PESQUISA);
 }
 
-async function pesquisarLocalizacao(consulta, tipo = alvoMapa) {
-    if (!mapSearchResults || !mapa) return;
+async function pesquisarLocalizacao(consulta, tipo) {
+    const dados = localizacoes[tipo];
+
+    if (!dados || !dados.resultados || !mapa) return;
 
     const texto = consulta.trim();
 
-    if (texto.length < MINIMO_CARACTERES) return;
-
-    if (controladorPesquisa) {
-        controladorPesquisa.abort();
+    if (texto.length < MINIMO_CARACTERES) {
+        fecharSugestoes(tipo);
+        return;
     }
 
-    controladorPesquisa = new AbortController();
+    if (controladoresPesquisa[tipo]) {
+        controladoresPesquisa[tipo].abort();
+    }
 
-    const pedidoAtual = ++numeroPesquisa;
+    const controlador = new AbortController();
+
+    controladoresPesquisa[tipo] = controlador;
+
+    const pedidoAtual = ++numerosPesquisa[tipo];
 
     atualizarEstadoMapa(`A procurar "${texto}"...`);
 
@@ -680,7 +612,7 @@ async function pesquisarLocalizacao(consulta, tipo = alvoMapa) {
             format: "jsonv2",
             q: texto,
             countrycodes: "ao",
-            limit: "6",
+            limit: "7",
             addressdetails: "1"
         });
 
@@ -690,7 +622,7 @@ async function pesquisarLocalizacao(consulta, tipo = alvoMapa) {
             headers: {
                 Accept: "application/json"
             },
-            signal: controladorPesquisa.signal
+            signal: controlador.signal
         });
 
         if (!resposta.ok) {
@@ -699,7 +631,10 @@ async function pesquisarLocalizacao(consulta, tipo = alvoMapa) {
 
         const resultados = await resposta.json();
 
-        if (pedidoAtual !== numeroPesquisa) return;
+        if (pedidoAtual !== numerosPesquisa[tipo]) return;
+
+        // Evita mostrar resultados de uma pesquisa anterior.
+        if (dados.campo.value.trim() !== texto) return;
 
         mostrarResultadosPesquisa(resultados, tipo);
 
@@ -724,17 +659,19 @@ async function pesquisarLocalizacao(consulta, tipo = alvoMapa) {
     }
 }
 
-// ======================================================
-// 15. MOSTRAR RESULTADOS DA PESQUISA
-// ======================================================
+// 16. MOSTRAR SUGESTÕES
 
 function mostrarResultadosPesquisa(resultados, tipo) {
-    if (!mapSearchResults) return;
+    const dados = localizacoes[tipo];
 
-    mapSearchResults.innerHTML = "";
+    if (!dados || !dados.resultados) return;
+
+    const contentor = dados.resultados;
+
+    contentor.innerHTML = "";
 
     if (!resultados || resultados.length === 0) {
-        mapSearchResults.hidden = true;
+        fecharSugestoes(tipo);
         return;
     }
 
@@ -758,7 +695,7 @@ function mostrarResultadosPesquisa(resultados, tipo) {
 
         const detalheElemento = document.createElement("small");
         detalheElemento.textContent =
-            complemento || resultado.display_name;
+            complemento || resultado.display_name || "";
 
         botao.appendChild(tituloElemento);
         botao.appendChild(detalheElemento);
@@ -769,13 +706,24 @@ function mostrarResultadosPesquisa(resultados, tipo) {
 
             if (!coordenadasValidas(lat, lng)) return;
 
-            alvoMapa = tipo;
+            clearTimeout(temporizadoresPesquisa[tipo]);
+
+            if (controladoresPesquisa[tipo]) {
+                controladoresPesquisa[tipo].abort();
+            }
+
+            definirAlvoMapa(tipo);
+
+            definirValor(dados.campo, obterNomeLocal(resultado));
+
+            fecharSugestoes(tipo);
 
             if (mapa) {
                 mapa.flyTo({
                     center: [lng, lat],
-                    zoom: 15,
-                    essential: true
+                    zoom: 14,
+                    essential: true,
+                    duration: 1200
                 });
             }
 
@@ -785,120 +733,79 @@ function mostrarResultadosPesquisa(resultados, tipo) {
                 lng,
                 resultado
             );
-
-            mapSearchResults.hidden = true;
-
-            if (mapSearch) {
-                mapSearch.value = "";
-            }
-
-            atualizarResumoPercurso();
-
-            const campo = localizacoes[tipo].local;
-
-            if (campo) {
-                campo.value = obterNomeLocal(resultado);
-            }
-
-            atualizarEstadoMapa(
-                `Local seleccionado: ${obterDescricaoLocal(tipo)}`
-            );
         });
 
-        mapSearchResults.appendChild(botao);
+        contentor.appendChild(botao);
     });
 
-    mapSearchResults.hidden = false;
+    contentor.hidden = false;
+
+    dados.campo.setAttribute("aria-expanded", "true");
 }
 
-// ======================================================
-// 16. PESQUISA NO CAMPO DO MAPA
-// ======================================================
+// 17. EVENTOS DOS CAMPOS DE ORIGEM E DESTINO
 
-if (mapSearch) {
-    mapSearch.addEventListener("input", () => {
-        agendarPesquisa(mapSearch.value, alvoMapa);
+["partida", "destino"].forEach(tipo => {
+    const dados = localizacoes[tipo];
+
+    if (!dados.campo) return;
+
+    dados.campo.addEventListener("input", () => {
+        limparErro();
+
+        limparLocalizacao(tipo);
+
+        definirAlvoMapa(tipo);
+
+        agendarPesquisa(dados.campo.value, tipo);
     });
 
-    mapSearch.addEventListener("keydown", evento => {
+    dados.campo.addEventListener("focus", () => {
+        definirAlvoMapa(tipo);
+
+        const texto = dados.campo.value.trim();
+
+        if (texto.length >= MINIMO_CARACTERES) {
+            agendarPesquisa(texto, tipo);
+        }
+    });
+
+    dados.campo.addEventListener("keydown", evento => {
         if (evento.key === "Enter") {
             evento.preventDefault();
 
-            clearTimeout(temporizadorPesquisa);
+            clearTimeout(temporizadoresPesquisa[tipo]);
 
             pesquisarLocalizacao(
-                mapSearch.value,
-                alvoMapa
+                dados.campo.value,
+                tipo
             );
         }
 
-        if (evento.key === "Escape" && mapSearchResults) {
-            mapSearchResults.hidden = true;
-        }
-    });
-}
-
-if (mapSearchBtn) {
-    mapSearchBtn.addEventListener("click", () => {
-        pesquisarLocalizacao(mapSearch.value, alvoMapa);
-    });
-}
-
-// ======================================================
-// 17. PESQUISA DIRECTAMENTE NA ORIGEM E NO DESTINO
-// ======================================================
-
-["partida", "destino"].forEach(tipo => {
-    const campo = localizacoes[tipo].local;
-
-    if (!campo) return;
-
-    campo.addEventListener("input", () => {
-        // Ao escrever, ainda não existe uma localização confirmada.
-        coordenadas[tipo] = null;
-
-        if (marcadores[tipo]) {
-            marcadores[tipo].remove();
-            marcadores[tipo] = null;
-        }
-
-        const dados = localizacoes[tipo];
-
-        definirValor(dados.latitude, "");
-        definirValor(dados.longitude, "");
-        definirValor(dados.coordenadas, "");
-        definirValor(dados.provincia, "");
-        definirValor(dados.municipio, "");
-
-        definirAlvoMapa(tipo);
-
-        agendarPesquisa(campo.value, tipo);
-
-        atualizarResumoPercurso();
-    });
-
-    campo.addEventListener("focus", () => {
-        definirAlvoMapa(tipo);
-
-        if (campo.value.trim().length >= MINIMO_CARACTERES) {
-            agendarPesquisa(campo.value, tipo);
-        }
-    });
-
-    campo.addEventListener("keydown", evento => {
-        if (evento.key === "Enter") {
-            evento.preventDefault();
-
-            clearTimeout(temporizadorPesquisa);
-
-            pesquisarLocalizacao(campo.value, tipo);
+        if (evento.key === "Escape") {
+            fecharSugestoes(tipo);
         }
     });
 });
 
-// ======================================================
-// 18. GPS
-// ======================================================
+// 18. FECHAR SUGESTÕES AO CLICAR FORA
+
+document.addEventListener("click", evento => {
+    Object.keys(localizacoes).forEach(tipo => {
+        const dados = localizacoes[tipo];
+
+        if (!dados.campo || !dados.resultados) return;
+
+        const clicouNoCampo = dados.campo.contains(evento.target);
+        const clicouNasSugestoes = dados.resultados.contains(evento.target);
+
+        if (!clicouNoCampo && !clicouNasSugestoes) {
+            fecharSugestoes(tipo);
+        }
+    });
+});
+
+// 19. GPS
 
 function usarLocalizacaoGPS() {
     if (!navigator.geolocation) {
@@ -913,6 +820,9 @@ function usarLocalizacaoGPS() {
         usarGPS.disabled = true;
     }
 
+    // O GPS é usado como origem.
+    definirAlvoMapa("partida");
+
     atualizarEstadoMapa("A obter a tua localização GPS...");
 
     navigator.geolocation.getCurrentPosition(
@@ -923,12 +833,18 @@ function usarLocalizacaoGPS() {
             if (mapa) {
                 mapa.flyTo({
                     center: [lng, lat],
-                    zoom: 16,
+                    zoom: 15,
                     essential: true
                 });
             }
 
-            await selecionarPonto(alvoMapa, lat, lng);
+            limparLocalizacao("partida");
+
+            await selecionarPonto(
+                "partida",
+                lat,
+                lng
+            );
 
             if (usarGPS) {
                 usarGPS.disabled = false;
@@ -967,9 +883,7 @@ if (usarGPS) {
     usarGPS.addEventListener("click", usarLocalizacaoGPS);
 }
 
-// ======================================================
-// 19. LINHA DA ROTA
-// ======================================================
+// 20. CRIAR LINHA DA ROTA
 
 function criarLinhaRota() {
     if (!mapa || linhaRotaCriada) return;
@@ -1006,6 +920,8 @@ function criarLinhaRota() {
     atualizarLinhaRota();
 }
 
+// 21. ACTUALIZAR LINHA DA ROTA
+
 function atualizarLinhaRota() {
     if (!mapa || !mapa.getSource("rota-frete")) return;
 
@@ -1029,9 +945,54 @@ function atualizarLinhaRota() {
     });
 }
 
-// ======================================================
-// 20. DADOS E VALIDAÇÃO DAS LOCALIZAÇÕES
-// ======================================================
+// 22. AJUSTAR VISUALIZAÇÃO DO MAPA
+
+function ajustarVisualizacaoRota() {
+    if (!mapa) return;
+
+    const origem = coordenadas.partida;
+    const destino = coordenadas.destino;
+
+    if (origem && destino) {
+        const limites = new maplibregl.LngLatBounds();
+
+        limites.extend([origem.lng, origem.lat]);
+        limites.extend([destino.lng, destino.lat]);
+
+        mapa.fitBounds(limites, {
+            padding: {
+                top: 65,
+                bottom: 65,
+                left: 65,
+                right: 65
+            },
+            maxZoom: 11,
+            duration: 1000
+        });
+
+        return;
+    }
+
+    if (origem) {
+        mapa.flyTo({
+            center: [origem.lng, origem.lat],
+            zoom: 12,
+            duration: 900
+        });
+
+        return;
+    }
+
+    if (destino) {
+        mapa.flyTo({
+            center: [destino.lng, destino.lat],
+            zoom: 12,
+            duration: 900
+        });
+    }
+}
+
+// 23. VALIDAR LOCALIZAÇÕES
 
 function obterDadosLocalizacao(tipo) {
     const dados = localizacoes[tipo];
@@ -1039,7 +1000,7 @@ function obterDadosLocalizacao(tipo) {
     return {
         provincia: dados.provincia?.value.trim() || "",
         municipio: dados.municipio?.value.trim() || "",
-        local: dados.local?.value.trim() || "",
+        local: dados.campo?.value.trim() || "",
         latitude: dados.latitude?.value.trim() || "",
         longitude: dados.longitude?.value.trim() || "",
         coordenadas: dados.coordenadas?.value.trim() || ""
@@ -1056,7 +1017,7 @@ function validarLocalizacao(tipo) {
         dados.longitude
     );
 
-    return temLocal || temCoordenadas;
+    return temLocal && temCoordenadas;
 }
 
 function mesmaLocalizacao() {
@@ -1080,17 +1041,13 @@ function mesmaLocalizacao() {
     );
 }
 
-// ======================================================
-// 21. DESCRIÇÃO DOS LOCAIS
-// ======================================================
+// 24. DESCRIÇÃO DOS LOCAIS
 
 function montarDescricaoLocal(tipo) {
     return obterDescricaoLocal(tipo) || "Não indicado";
 }
 
-// ======================================================
-// 22. SUBMISSÃO DO FORMULÁRIO
-// ======================================================
+// 25. ENVIO DO FORMULÁRIO
 
 if (formulario) {
     formulario.addEventListener("submit", evento => {
@@ -1105,7 +1062,9 @@ if (formulario) {
             'input[name="tipo"]:checked'
         );
 
-        const tipo = tipoSelecionado ? tipoSelecionado.value : "cargo";
+        const tipo = tipoSelecionado
+            ? tipoSelecionado.value
+            : "cargo";
 
         if (!nome) {
             mostrarErro("Informe o seu nome.", formErrorDetalhes);
@@ -1114,19 +1073,34 @@ if (formulario) {
         }
 
         if (!telefone) {
-            mostrarErro("Informe o seu número de telefone.", formErrorDetalhes);
+            mostrarErro(
+                "Informe o seu número de telefone.",
+                formErrorDetalhes
+            );
+
             document.getElementById("telefone")?.focus();
             return;
         }
 
-        if (!validarLocalizacao("partida") || !validarLocalizacao("destino")) {
+        if (
+            !validarLocalizacao("partida") ||
+            !validarLocalizacao("destino")
+        ) {
             mostrarEtapa(1);
-            mostrarErro("Verifique a origem e o destino antes de continuar.");
+
+            mostrarErro(
+                "Verifique a origem e o destino antes de continuar."
+            );
+
             return;
         }
 
         if (mesmaLocalizacao()) {
-            mostrarErro("A origem e o destino não podem ser iguais.", formErrorDetalhes);
+            mostrarErro(
+                "A origem e o destino não podem ser iguais.",
+                formErrorDetalhes
+            );
+
             return;
         }
 
@@ -1175,9 +1149,7 @@ if (formulario) {
     });
 }
 
-// ======================================================
-// 23. WHATSAPP
-// ======================================================
+// 26. WHATSAPP
 
 function abrirWhatsApp(mensagem) {
     const url =
@@ -1186,9 +1158,7 @@ function abrirWhatsApp(mensagem) {
     window.open(url, "_blank", "noopener,noreferrer");
 }
 
-// ======================================================
-// 24. INICIALIZAÇÃO GERAL
-// ======================================================
+// 27. INICIALIZAÇÃO GERAL
 
 atualizarFormulario("cargo");
 
@@ -1199,5 +1169,3 @@ if (anoAtual) {
 mostrarEtapa(1);
 
 inicializarMapa();
-
-definirAlvoMapa("partida");
