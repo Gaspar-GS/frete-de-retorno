@@ -1143,7 +1143,7 @@ if (formulario) {
             mensagem += `${detalhes}\n\n`;
         }
 
-        mensagem += "_Pedido enviado através do site Frete de Retorno._";
+        mensagem += "*ORIGEM: SITE FRETE DE RETORNO*";
 
         abrirWhatsApp(mensagem);
     });
