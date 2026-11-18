@@ -1,10 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="pt-AO">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="description" content="Frete de Retorno — encontre cargas ou camiões para aproveitar viagens de regresso. Nenhum camião volta vazio.">
     <meta name="theme-color" content="#14283d">
 
@@ -12,26 +10,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
-    >
-
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-
-    <!-- =========================================
-         NAVEGAÇÃO
-    ========================================== -->
-
     <header class="navbar">
         <div class="container nav-content">
-
             <a href="#inicio" class="logo" aria-label="Frete de Retorno - Início">
                 Frete <span>de Retorno</span>
             </a>
@@ -43,40 +29,19 @@
                 <a href="#cobertura">Cobertura</a>
             </nav>
 
-            <a
-                href="https://wa.me/244953715148"
-                class="btn btn-small nav-contact"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href="https://wa.me/244943787802" class="btn btn-small nav-contact" target="_blank" rel="noopener noreferrer">
                 Falar connosco
             </a>
-
         </div>
     </header>
 
-
     <main>
-
-        <!-- =========================================
-             PRIMEIRA ÁREA — MAPA E PEDIDO
-        ========================================== -->
-
         <section class="booking-section" id="inicio">
-
             <div class="container">
-
                 <div class="booking-intro">
                     <div>
-                        <p class="eyebrow">
-                            Plataforma de aproveitamento de fretes
-                        </p>
-
-                        <h1>
-                            Nenhum camião<br>
-                            <span>volta vazio.</span>
-                        </h1>
-
+                        <p class="eyebrow">Plataforma de aproveitamento de fretes</p>
+                        <h1>Nenhum camião<br><span>volta vazio.</span></h1>
                         <p class="booking-description">
                             Ligue transportadores a quem precisa de transportar mercadorias.
                             Encontre oportunidades de frete de retorno em Angola.
@@ -85,166 +50,34 @@
 
                     <div class="booking-contact">
                         <span class="contact-status-dot"></span>
-
                         <div>
                             <strong>Precisa de ajuda?</strong>
-                            <a
-                                href="https://wa.me/244953715148"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
+                            <a href="https://wa.me/244953715148" target="_blank" rel="noopener noreferrer">
                                 Contacte-nos pelo WhatsApp
                             </a>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- PAINEL PRINCIPAL -->
-
                 <div class="booking-layout">
 
-                    <!-- MAPA -->
-
-                    <div class="map-panel">
-
-                        <div class="map-panel-heading">
-
-                            <div>
-                                <span class="panel-eyebrow">Explorar Angola</span>
-                                <h2>Escolha o seu percurso</h2>
-                            </div>
-
-                            <span class="map-live-indicator">
-                                <span></span>
-                                Mapa interactivo
-                            </span>
-
-                        </div>
-
-
-                        <!-- PESQUISA DE LOCALIZAÇÃO -->
-
-                        <div class="map-search">
-
-                            <input
-                                type="text"
-                                id="mapSearch"
-                                placeholder="Pesquisar localidade, município ou província..."
-                                autocomplete="off"
-                                aria-label="Pesquisar localização no mapa"
-                            >
-
-                            <button type="button" id="mapSearchBtn">
-                                Pesquisar
-                            </button>
-
-                        </div>
-
-
-                        <!-- RESULTADOS DA PESQUISA -->
-
-                        <div
-                            id="mapSearchResults"
-                            class="map-search-results"
-                            hidden
-                        ></div>
-
-
-                        <!-- MAPA -->
-
-                        <div class="map-container">
-                            <div
-                                id="map"
-                                role="application"
-                                aria-label="Mapa interactivo de Angola. Clique para seleccionar uma localização."
-                            ></div>
-
-                            <div class="map-overlay-hint">
-                                <span>⌖</span>
-                                Clique no mapa para seleccionar um ponto
-                            </div>
-                        </div>
-
-
-                        <!-- CONTROLOS DO MAPA -->
-
-                        <div class="map-footer">
-
-                            <button
-                                type="button"
-                                id="usarGPS"
-                                class="gps-btn"
-                            >
-                                <span>◎</span>
-                                Usar a minha localização
-                            </button>
-
-                            <p id="mapStatus" aria-live="polite">
-                                Seleccione a origem ou o destino para começar.
-                            </p>
-
-                        </div>
-
-
-                        <!-- LEGENDA -->
-
-                        <div class="map-legend">
-                            <span>
-                                <i class="legend-origin"></i>
-                                Origem
-                            </span>
-
-                            <span>
-                                <i class="legend-destination"></i>
-                                Destino
-                            </span>
-                        </div>
-
-                    </div>
-
-
-                    <!-- FORMULÁRIO -->
-
+                    <!-- FORMULÁRIO: PRIMEIRO ELEMENTO -->
                     <div class="booking-panel">
-
                         <form id="whatsappForm" novalidate>
 
                             <!-- ETAPA 1 -->
-
                             <div id="etapaPercurso" class="form-step">
-
                                 <div class="form-heading">
-
-                                    <span class="step-counter">
-                                        ETAPA 01
-                                    </span>
-
-                                    <h2>Defina o percurso</h2>
-
-                                    <p>
-                                        Indique de onde parte e para onde pretende transportar.
-                                    </p>
-
+                                    <span class="step-counter">ETAPA 01</span>
+                                    <h2>Para onde vai?</h2>
+                                    <p>Escolha a origem e o destino para encontrar oportunidades de transporte.</p>
                                 </div>
 
-
-                                <!-- TIPO DE PEDIDO -->
-
-                                <div class="choice-heading">
-                                    O que pretende?
-                                </div>
+                                <div class="choice-heading">O que pretende?</div>
 
                                 <div class="choice-row">
-
                                     <label>
-                                        <input
-                                            type="radio"
-                                            name="tipo"
-                                            value="cargo"
-                                            checked
-                                        >
-
+                                        <input type="radio" name="tipo" value="cargo" checked>
                                         <span>
                                             <strong>Tenho uma carga</strong>
                                             <small>Preciso de transporte</small>
@@ -252,42 +85,37 @@
                                     </label>
 
                                     <label>
-                                        <input
-                                            type="radio"
-                                            name="tipo"
-                                            value="truck"
-                                        >
-
+                                        <input type="radio" name="tipo" value="truck">
                                         <span>
                                             <strong>Tenho um camião</strong>
                                             <small>Procuro uma carga</small>
                                         </span>
                                     </label>
-
                                 </div>
 
-
                                 <!-- ORIGEM -->
-
-                                <div class="route-field route-origin">
-
+                                <div class="route-field route-origin" id="campoOrigem">
                                     <div class="route-field-heading">
-
                                         <span class="location-indicator origin-indicator"></span>
-
                                         <div>
                                             <strong>Local de origem</strong>
                                             <small>Onde começa o percurso?</small>
                                         </div>
-
                                     </div>
 
-                                    <input
-                                        type="text"
-                                        id="partidaLocal"
-                                        placeholder="Ex.: Luanda, Viana..."
-                                        autocomplete="off"
-                                    >
+                                    <div class="location-input-wrap">
+                                        <span class="input-location-icon">A</span>
+                                        <input
+                                            type="text"
+                                            id="partidaLocal"
+                                            placeholder="Ex.: Luanda, Viana..."
+                                            autocomplete="off"
+                                            aria-label="Pesquisar local de origem"
+                                            aria-controls="partidaResultados"
+                                            aria-expanded="false"
+                                        >
+                                        <div id="partidaResultados" class="map-search-results" hidden></div>
+                                    </div>
 
                                     <input type="hidden" id="partidaProvincia">
                                     <input type="hidden" id="partidaMunicipio">
@@ -295,50 +123,36 @@
                                     <input type="hidden" id="partidaLng">
                                     <input type="hidden" id="partidaCoordenadas">
 
-                                    <button
-                                        type="button"
-                                        class="map-select-btn"
-                                        data-map-target="partida"
-                                    >
-                                        <span>⌖</span>
-                                        Seleccionar origem no mapa
-                                    </button>
-
-                                    <p class="coordinate-info" id="partidaInfo">
-                                        Nenhuma origem seleccionada.
-                                    </p>
-
+                                    <p class="coordinate-info" id="partidaInfo">Indique o local de origem.</p>
                                 </div>
-
-
-                                <!-- LIGAÇÃO VISUAL -->
 
                                 <div class="route-connector">
                                     <span></span>
                                 </div>
 
-
                                 <!-- DESTINO -->
-
-                                <div class="route-field route-destination">
-
+                                <div class="route-field route-destination" id="campoDestino">
                                     <div class="route-field-heading">
-
                                         <span class="location-indicator destination-indicator"></span>
-
                                         <div>
                                             <strong>Local de destino</strong>
                                             <small>Para onde vai a carga ou o camião?</small>
                                         </div>
-
                                     </div>
 
-                                    <input
-                                        type="text"
-                                        id="destinoLocal"
-                                        placeholder="Ex.: Huambo, Benguela..."
-                                        autocomplete="off"
-                                    >
+                                    <div class="location-input-wrap">
+                                        <span class="input-location-icon destination-letter">B</span>
+                                        <input
+                                            type="text"
+                                            id="destinoLocal"
+                                            placeholder="Ex.: Huambo, Benguela..."
+                                            autocomplete="off"
+                                            aria-label="Pesquisar local de destino"
+                                            aria-controls="destinoResultados"
+                                            aria-expanded="false"
+                                        >
+                                        <div id="destinoResultados" class="map-search-results" hidden></div>
+                                    </div>
 
                                     <input type="hidden" id="destinoProvincia">
                                     <input type="hidden" id="destinoMunicipio">
@@ -346,98 +160,36 @@
                                     <input type="hidden" id="destinoLng">
                                     <input type="hidden" id="destinoCoordenadas">
 
-                                    <button
-                                        type="button"
-                                        class="map-select-btn"
-                                        data-map-target="destino"
-                                    >
-                                        <span>⌖</span>
-                                        Seleccionar destino no mapa
-                                    </button>
-
-                                    <p class="coordinate-info" id="destinoInfo">
-                                        Nenhum destino seleccionado.
-                                    </p>
-
+                                    <p class="coordinate-info" id="destinoInfo">Indique o local de destino.</p>
                                 </div>
 
-
-                                <!-- ALVO ACTUAL DO MAPA -->
-
-                                <div class="map-target-selector">
-
-                                    <p>Estou a seleccionar:</p>
-
-                                    <div class="map-toolbar">
-
-                                        <button
-                                            type="button"
-                                            class="map-target-btn active"
-                                            data-map-target="partida"
-                                        >
-                                            <span class="legend-origin"></span>
-                                            Origem
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            class="map-target-btn"
-                                            data-map-target="destino"
-                                        >
-                                            <span class="legend-destination"></span>
-                                            Destino
-                                        </button>
-
-                                    </div>
-
+                                <div class="map-inline-tip">
+                                    <span>⌖</span>
+                                    <p>Comece a escrever e escolha uma das localizações sugeridas. O mapa será actualizado automaticamente.</p>
                                 </div>
 
+                                <div id="formError" role="alert" aria-live="assertive" hidden></div>
 
-                                <div id="formError" role="alert" aria-live="assertive"></div>
-
-
-                                <button
-                                    type="button"
-                                    id="continuarDetalhes"
-                                    class="btn btn-full"
-                                >
-                                    Continuar
-                                    <span>→</span>
+                                <button type="button" id="continuarDetalhes" class="btn btn-full">
+                                    Continuar <span>→</span>
                                 </button>
 
                                 <p class="form-privacy">
                                     Os seus dados serão utilizados apenas para tratar o pedido de transporte.
                                 </p>
-
                             </div>
 
-
                             <!-- ETAPA 2 -->
-
                             <div id="etapaDetalhes" class="form-step" hidden>
-
                                 <div class="form-heading">
-
-                                    <span class="step-counter">
-                                        ETAPA 02
-                                    </span>
-
+                                    <span class="step-counter">ETAPA 02</span>
                                     <h2>Detalhes do pedido</h2>
-
-                                    <p>
-                                        Falta apenas preencher os seus dados para concluir o pedido.
-                                    </p>
-
+                                    <p>Falta apenas preencher os seus dados para concluir o pedido.</p>
                                 </div>
 
-
-                                <!-- RESUMO DO PERCURSO -->
-
                                 <div class="route-summary">
-
                                     <div class="route-summary-point">
                                         <span class="location-indicator origin-indicator"></span>
-
                                         <div>
                                             <small>ORIGEM</small>
                                             <strong id="resumoOrigem">Por seleccionar</strong>
@@ -448,25 +200,16 @@
 
                                     <div class="route-summary-point">
                                         <span class="location-indicator destination-indicator"></span>
-
                                         <div>
                                             <small>DESTINO</small>
                                             <strong id="resumoDestino">Por seleccionar</strong>
                                         </div>
                                     </div>
 
-                                    <button
-                                        type="button"
-                                        id="voltarPercurso"
-                                        class="edit-route-btn"
-                                    >
+                                    <button type="button" id="voltarPercurso" class="edit-route-btn">
                                         Alterar percurso
                                     </button>
-
                                 </div>
-
-
-                                <!-- CONTACTOS -->
 
                                 <div class="form-section-title">
                                     <span>01</span>
@@ -475,35 +218,16 @@
 
                                 <label for="nome">
                                     Nome completo
-
-                                    <input
-                                        type="text"
-                                        id="nome"
-                                        name="nome"
-                                        placeholder="Introduza o seu nome"
-                                        autocomplete="name"
-                                        required
-                                    >
+                                    <input type="text" id="nome" name="nome" placeholder="Introduza o seu nome" autocomplete="name" required>
                                 </label>
 
                                 <label for="telefone">
                                     Número de telefone / WhatsApp
-
-                                    <input
-                                        type="tel"
-                                        id="telefone"
-                                        name="telefone"
-                                        placeholder="Ex.: 9XXXXXXXX"
-                                        autocomplete="tel"
-                                        required
-                                    >
+                                    <input type="tel" id="telefone" name="telefone" placeholder="Ex.: 9XXXXXXXX" autocomplete="tel" required>
                                 </label>
 
-
-                                <!-- INFORMAÇÕES DA CARGA -->
-
+                                <!-- CARGA -->
                                 <div id="camposCarga">
-
                                     <div class="form-section-title">
                                         <span>02</span>
                                         <h3>Informações da carga</h3>
@@ -511,7 +235,6 @@
 
                                     <label for="tipoCarga">
                                         Tipo de mercadoria
-
                                         <select id="tipoCarga" name="tipoCarga">
                                             <option value="">Seleccione o tipo de carga</option>
                                             <option value="Produtos alimentares">Produtos alimentares</option>
@@ -525,32 +248,17 @@
 
                                     <label for="pesoCarga">
                                         Peso ou quantidade aproximada
-
-                                        <input
-                                            type="text"
-                                            id="pesoCarga"
-                                            name="pesoCarga"
-                                            placeholder="Ex.: 10 toneladas"
-                                        >
+                                        <input type="text" id="pesoCarga" name="pesoCarga" placeholder="Ex.: 10 toneladas">
                                     </label>
 
                                     <label for="dataCarga">
                                         Data prevista para o transporte
-
-                                        <input
-                                            type="date"
-                                            id="dataCarga"
-                                            name="dataCarga"
-                                        >
+                                        <input type="date" id="dataCarga" name="dataCarga">
                                     </label>
-
                                 </div>
 
-
-                                <!-- INFORMAÇÕES DO CAMIÃO -->
-
+                                <!-- CAMIÃO -->
                                 <div id="camposCamiao" hidden>
-
                                     <div class="form-section-title">
                                         <span>02</span>
                                         <h3>Informações do camião</h3>
@@ -558,7 +266,6 @@
 
                                     <label for="tipoCamiao">
                                         Tipo de viatura
-
                                         <select id="tipoCamiao" name="tipoCamiao">
                                             <option value="">Seleccione a viatura</option>
                                             <option value="Camião 20 toneladas">Camião 20 toneladas</option>
@@ -573,18 +280,11 @@
 
                                     <label for="capacidadeCamiao">
                                         Capacidade de carga
-
-                                        <input
-                                            type="text"
-                                            id="capacidadeCamiao"
-                                            name="capacidadeCamiao"
-                                            placeholder="Ex.: 15 toneladas"
-                                        >
+                                        <input type="text" id="capacidadeCamiao" name="capacidadeCamiao" placeholder="Ex.: 15 toneladas">
                                     </label>
 
                                     <label for="regressoCamiao">
                                         Situação do camião
-
                                         <select id="regressoCamiao" name="regressoCamiao">
                                             <option value="">Seleccione uma opção</option>
                                             <option value="Disponível para viagem de regresso">Disponível para viagem de regresso</option>
@@ -592,11 +292,7 @@
                                             <option value="Procuro carga para uma data específica">Procuro carga para uma data específica</option>
                                         </select>
                                     </label>
-
                                 </div>
-
-
-                                <!-- OBSERVAÇÕES -->
 
                                 <div class="form-section-title">
                                     <span>03</span>
@@ -605,405 +301,191 @@
 
                                 <label for="detalhes">
                                     Observações
-
-                                    <textarea
-                                        id="detalhes"
-                                        name="detalhes"
-                                        placeholder="Acrescente informações importantes sobre o pedido..."
-                                        rows="4"
-                                    ></textarea>
+                                    <textarea id="detalhes" name="detalhes" placeholder="Acrescente informações importantes sobre o pedido..." rows="4"></textarea>
                                 </label>
 
-
-                                <div id="formErrorDetalhes" role="alert" aria-live="assertive"></div>
-
-
-                                <!-- ACÇÕES -->
+                                <div id="formErrorDetalhes" role="alert" aria-live="assertive" hidden></div>
 
                                 <div class="form-actions">
-
-                                    <button
-                                        type="button"
-                                        id="voltarPercursoSecundario"
-                                        class="btn-back"
-                                    >
-                                        ← Voltar
+                                    <button type="button" id="voltarPercursoSecundario" class="btn-back">← Voltar</button>
+                                    <button type="submit" class="btn btn-submit">
+                                        Enviar pedido pelo WhatsApp <span>→</span>
                                     </button>
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-submit"
-                                    >
-                                        Enviar pedido pelo WhatsApp
-                                        <span>→</span>
-                                    </button>
-
                                 </div>
 
                                 <p class="form-privacy">
                                     Ao continuar, será aberta uma conversa no WhatsApp para concluir o seu pedido.
                                 </p>
-
                             </div>
-
                         </form>
-
                     </div>
 
+                    <!-- MAPA: APOIO VISUAL -->
+                    <div class="map-panel">
+                        <div class="map-panel-heading">
+                            <div>
+                                <span class="panel-eyebrow">O seu percurso</span>
+                                <h2>Mapa de Angola</h2>
+                            </div>
+                            <span class="map-live-indicator"><span></span> Mapa interactivo</span>
+                        </div>
+
+                        <div class="map-container">
+                            <div id="map" role="application" aria-label="Mapa de Angola com a origem e o destino seleccionados."></div>
+                            <div class="map-overlay-hint">
+                                <span>⌖</span>
+                                O mapa acompanha as localizações escolhidas
+                            </div>
+                        </div>
+
+                        <div class="map-footer">
+                            <button type="button" id="usarGPS" class="gps-btn">
+                                <span>◎</span> Usar a minha localização como origem
+                            </button>
+                            <p id="mapStatus" aria-live="polite">Pesquise a origem e o destino para visualizar o percurso.</p>
+                        </div>
+
+                        <div class="map-legend">
+                            <span><i class="legend-origin"></i> Origem</span>
+                            <span><i class="legend-destination"></i> Destino</span>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
         </section>
-
-
-        <!-- =========================================
-             COMO FUNCIONA
-        ========================================== -->
 
         <section class="section" id="como-funciona">
-
             <div class="container">
-
                 <div class="section-heading">
-
                     <p class="eyebrow">Simples e directo</p>
-
-                    <h2>
-                        Como funciona a plataforma?
-                    </h2>
-
-                    <p>
-                        Facilitamos o contacto entre quem precisa de transportar mercadorias
-                        e quem tem capacidade de transporte disponível.
-                    </p>
-
+                    <h2>Como funciona a plataforma?</h2>
+                    <p>Facilitamos o contacto entre quem precisa de transportar mercadorias e quem tem capacidade de transporte disponível.</p>
                 </div>
-
 
                 <div class="steps">
-
                     <article class="step">
                         <span>01</span>
-
                         <h3>Indique o percurso</h3>
-
-                        <p>
-                            Escolha a origem e o destino da carga ou do camião através do mapa.
-                        </p>
+                        <p>Escolha a origem e o destino da carga ou do camião através dos campos de pesquisa.</p>
                     </article>
-
                     <article class="step">
                         <span>02</span>
-
                         <h3>Envie o seu pedido</h3>
-
-                        <p>
-                            Preencha as informações necessárias e envie o pedido à nossa equipa.
-                        </p>
+                        <p>Preencha as informações necessárias e envie o pedido à nossa equipa.</p>
                     </article>
-
                     <article class="step">
                         <span>03</span>
-
                         <h3>Entre em contacto</h3>
-
-                        <p>
-                            A nossa equipa ajuda a aproximar carregadores e transportadores
-                            para encontrar uma oportunidade de frete.
-                        </p>
+                        <p>A nossa equipa ajuda a aproximar carregadores e transportadores para encontrar uma oportunidade de frete.</p>
                     </article>
-
                 </div>
-
             </div>
-
         </section>
 
-
-        <!-- =========================================
-             TRANSPORTADORES
-        ========================================== -->
-
         <section class="split-section" id="transportadores">
-
             <div class="audience audience-dark">
-
                 <div class="audience-inner">
-
                     <p class="eyebrow">Para transportadores</p>
-
-                    <h2>
-                        O seu camião não precisa de voltar vazio.
-                    </h2>
-
-                    <p>
-                        Aproveite a capacidade disponível nas viagens de regresso.
-                        Encontre oportunidades de transporte e reduza deslocações sem carga.
-                    </p>
-
+                    <h2>O seu camião não precisa de voltar vazio.</h2>
+                    <p>Aproveite a capacidade disponível nas viagens de regresso. Encontre oportunidades de transporte e reduza deslocações sem carga.</p>
                     <ul>
                         <li>Apresente o seu camião e a sua capacidade.</li>
                         <li>Indique a rota que pretende realizar.</li>
                         <li>Procure oportunidades de frete de retorno.</li>
                     </ul>
-
-                    <a href="#inicio" class="text-link">
-                        Tenho um camião →
-                    </a>
-
+                    <a href="#inicio" class="text-link">Tenho um camião →</a>
                 </div>
-
             </div>
 
-
-            <!-- =====================================
-                 CARREGADORES
-            ====================================== -->
-
             <div class="audience audience-light" id="carregadores">
-
                 <div class="audience-inner">
-
                     <p class="eyebrow">Para carregadores</p>
-
-                    <h2>
-                        Encontre transporte para a sua mercadoria.
-                    </h2>
-
-                    <p>
-                        Indique o local de recolha e o destino da sua carga.
-                        A nossa equipa ajuda a procurar transportadores disponíveis para o percurso.
-                    </p>
-
+                    <h2>Encontre transporte para a sua mercadoria.</h2>
+                    <p>Indique o local de recolha e o destino da sua carga. A nossa equipa ajuda a procurar transportadores disponíveis para o percurso.</p>
                     <ul>
                         <li>Apresente as características da mercadoria.</li>
                         <li>Indique a origem e o destino.</li>
                         <li>Receba apoio na procura de transporte.</li>
                     </ul>
-
-                    <a href="#inicio" class="text-link">
-                        Tenho uma carga →
-                    </a>
-
+                    <a href="#inicio" class="text-link">Tenho uma carga →</a>
                 </div>
-
             </div>
-
         </section>
 
-
-        <!-- =========================================
-             COBERTURA
-        ========================================== -->
-
         <section class="coverage-section" id="cobertura">
-
             <div class="container coverage-grid">
-
                 <div class="coverage-text">
-
                     <p class="eyebrow">Cobertura em Angola</p>
-
-                    <h2>
-                        Ligamos rotas.<br>
-                        <span>Aproveitamos viagens.</span>
-                    </h2>
-
-                    <p>
-                        A plataforma começa por facilitar oportunidades de transporte
-                        no corredor Luanda–Huambo, com perspectiva de expansão para
-                        outras rotas nacionais.
-                    </p>
-
-                    <a
-                        href="https://wa.me/244953715148"
-                        class="btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Consultar disponibilidade
-                    </a>
-
+                    <h2>Ligamos rotas.<br><span>Aproveitamos viagens.</span></h2>
+                    <p>A plataforma começa por facilitar oportunidades de transporte no corredor Luanda–Huambo, com perspectiva de expansão para outras rotas nacionais.</p>
+                    <a href="https://wa.me/244953715148" class="btn" target="_blank" rel="noopener noreferrer">Consultar disponibilidade</a>
                 </div>
 
-
                 <div class="coverage-card">
-
                     <div class="coverage-card-header">
                         <span>ROTA INICIAL</span>
                         <div class="coverage-line"></div>
                     </div>
-
                     <h3>Principais ligações</h3>
-
                     <div class="coverage-list">
-
-                        <div>
-                            <span>01</span>
-                            Luanda
-                        </div>
-
-                        <div>
-                            <span>02</span>
-                            Huambo
-                        </div>
-
-                        <div>
-                            <span>03</span>
-                            Benguela
-                        </div>
-
-                        <div>
-                            <span>04</span>
-                            Outras rotas
-                        </div>
-
+                        <div><span>01</span> Luanda</div>
+                        <div><span>02</span> Huambo</div>
+                        <div><span>03</span> Benguela</div>
+                        <div><span>04</span> Outras rotas</div>
                     </div>
-
-                    <p class="coverage-note">
-                        A disponibilidade de transporte depende das oportunidades
-                        e dos pedidos recebidos.
-                    </p>
-
+                    <p class="coverage-note">A disponibilidade de transporte depende das oportunidades e dos pedidos recebidos.</p>
                 </div>
-
             </div>
-
         </section>
-
-
-        <!-- =========================================
-             CONFIANÇA
-        ========================================== -->
 
         <section class="section trust" id="confianca">
-
             <div class="container">
-
                 <div class="section-heading">
-
                     <p class="eyebrow">O nosso compromisso</p>
-
-                    <h2>
-                        Mais aproveitamento. Menos viagens vazias.
-                    </h2>
-
-                    <p>
-                        Trabalhamos para tornar o contacto entre carregadores
-                        e transportadores mais simples e eficiente.
-                    </p>
-
+                    <h2>Mais aproveitamento. Menos viagens vazias.</h2>
+                    <p>Trabalhamos para tornar o contacto entre carregadores e transportadores mais simples e eficiente.</p>
                 </div>
-
 
                 <div class="trust-grid">
-
                     <div>
                         <b>Ligação directa</b>
-
-                        <p>
-                            Facilitamos o contacto entre quem tem mercadoria
-                            e quem dispõe de transporte.
-                        </p>
+                        <p>Facilitamos o contacto entre quem tem mercadoria e quem dispõe de transporte.</p>
                     </div>
-
                     <div>
                         <b>Aproveitamento de capacidade</b>
-
-                        <p>
-                            Procuramos reduzir viagens de regresso sem carga,
-                            aproveitando a capacidade de transporte disponível.
-                        </p>
+                        <p>Procuramos reduzir viagens de regresso sem carga, aproveitando a capacidade de transporte disponível.</p>
                     </div>
-
                     <div>
                         <b>Acompanhamento</b>
-
-                        <p>
-                            A nossa equipa recebe os pedidos e ajuda a encaminhar
-                            as oportunidades de transporte.
-                        </p>
+                        <p>A nossa equipa recebe os pedidos e ajuda a encaminhar as oportunidades de transporte.</p>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
-        <!-- =========================================
-             CONTACTO
-        ========================================== -->
 
         <section class="contact-section" id="contacto">
-
             <div class="container contact-content">
-
                 <div class="contact-text">
-
                     <p class="eyebrow">Estamos disponíveis</p>
-
-                    <h2>
-                        Tem alguma dúvida?
-                    </h2>
-
-                    <p>
-                        Entre em contacto com a nossa equipa para saber mais
-                        sobre a plataforma ou obter apoio no seu pedido de transporte.
-                    </p>
-
-                    <a
-                        href="https://wa.me/244953715148"
-                        class="btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Conversar pelo WhatsApp
-                    </a>
-
+                    <h2>Tem alguma dúvida?</h2>
+                    <p>Entre em contacto com a nossa equipa para saber mais sobre a plataforma ou obter apoio no seu pedido de transporte.</p>
+                    <a href="https://wa.me/244935109387" class="btn" target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp</a>
                 </div>
-
             </div>
-
         </section>
-
     </main>
 
-
-    <!-- =========================================
-         RODAPÉ
-    ========================================== -->
-
     <footer>
-
         <div class="container footer-content">
-
             <div>
                 <strong>Frete de Retorno</strong>
-
-                <p>
-                    Nenhum camião volta vazio.
-                </p>
+                <p>Nenhum camião volta vazio.</p>
             </div>
-
-            <p>
-                © <span id="anoAtual"></span> Frete de Retorno.
-                Todos os direitos reservados.
-            </p>
-
+            <p>© <span id="anoAtual"></span> Frete de Retorno. Todos os direitos reservados.</p>
         </div>
-
     </footer>
-
-
-    <!-- =========================================
-         SCRIPTS
-    ========================================== -->
 
     <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
     <script src="js/script.js"></script>
-
 </body>
 </html>
